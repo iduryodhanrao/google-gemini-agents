@@ -70,3 +70,14 @@ The application uses the following tables:
 - **Order Table**: Records customer orders.
 
 Refer to the `database/schema.sql` file for the detailed structure of each table.
+
+Output:
+DbAgent.py
+![alt text](image.png)
+
+SearchAgent.py
+![alt text](image-1.png)
+
+
+
+

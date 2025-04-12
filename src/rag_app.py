@@ -57,7 +57,7 @@ embed_fn.document_mode = False
 
 # Search the Chroma DB using the specified query.
 query = "How do you use the touchscreen to play music?"
-print("query1")
+#print("query1")
 result = db.query(query_texts=[query], n_results=1)
 [all_passages] = result["documents"]
 
@@ -79,7 +79,7 @@ for passage in all_passages:
     passage_oneline = passage.replace("\n", " ")
     prompt += f"PASSAGE: {passage_oneline}\n"
 print("Prompt:")
-print(prompt)
+#print(prompt)
 
 answer = client.models.generate_content(
     model="gemini-2.0-flash",

@@ -9,7 +9,7 @@ cursor = conn.cursor()
 #    schema = file.read()
 
 # Read the seed_Data.sql file
-with open(r"e:\MyRepo\New folder\google-gemini-sql-agent\database\seed_data.sql", "r") as file:
+with open(r"database/seed_data.sql", "r") as file:
     schema = file.read()
 
 # Execute the schema
