@@ -70,7 +70,7 @@ def main():
     schema, and execute_query to issue an SQL SELECT query.
 
     Keep trying until you get the correct SQL statement. If the SQL returns more than 1 row then    
-    display the output in tabular format.
+    display the output in tabular or table format properly aligned.
     If the SQL returns only 1 row then display the output in a single line.
     """
 
@@ -87,47 +87,44 @@ def main():
             tools=db_tools,
         ),
     )
-
-    #resp = chat.send_message("What is the cheapest product?")
-    #print(f"\n{resp.text}")
-    #resp = chat.send_message("Customer names with products ordered")
-    #print(f"\n{resp.text}")
+    # Set up the Streamlit app
     st.set_page_config(layout="wide", page_title="SQL Chatbot", page_icon=":robot_face:")
-    #st.title("SQL Chatbot")
 
+    # Initialize session state to store chat history
     if "history" not in st.session_state:
         st.session_state.history = []
-    # Send the user input to the chat
-    #print("SQL Bot: Hello, I can help you with writing SQLs and executing on the database. \n how can I help you? or when you are done enter 'quit'")
-    
+
+    # Set up the layout with two columns
     left_col, spacer, right_col = st.columns([5,0.2,5])
     with left_col:
         st.header("Chat with SQL Bot")
-        st.write("Hello, how can i help you?")
+        #st.write("Hello, how can i help you?")
         user_input = st.text_input("You: ",key="user_input")
-        #exit_var = ['quit', 'exit', 'stop']
-        #while user_input.lower() not in exit_var:
-        if user_input:
-            response = chat.send_message(user_input)
-            model_response = response.text
-            st.write(f'Bot: {model_response}')
-            st.session_state.history.append(f"Input: {user_input}\nOutput: {model_response}")
+        if st.button("Send"):
+        # Get user input and respond using the chat model
+            if user_input.strip():
+                response = chat.send_message(user_input)
+                model_response = response.text
+                st.write(f"Bot: {model_response}")
+                bot_response =f'Bot: {model_response}'
+                st.session_state.history.append(bot_response)
     
+    # Add a spacer between the two columns
     with spacer:
         st.empty()
 
     # Right column: History pane
     with right_col:
+        st.header("History")
+        # Clear history button
         if st.button("Clear History"):
             st.session_state.history.clear()
             user_input = ""
-            st.session_state[user_input] = ""
+            st.session_state[user_input] = ""        
             
-        st.header("History")
-        
         # Display history in a scrollable text area
-        history_text = "\n\n".join(st.session_state.history)
-        st.text_area("Input-Output History:", value=history_text, height=400, key="history_area")
+        history_text = "\n".join(st.session_state.history)
+        st.text_area("Conversation History:", value=history_text, height=400, key="history_area", disabled=True)
 
     
 

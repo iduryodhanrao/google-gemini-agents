@@ -41,6 +41,7 @@ google-gemini-sql-agent
      ```
      GOOGLE_API_KEY=your_google_api_key
      ```
+     or export GOOGLE_API_KEY=
    - Update any additional settings in `config/settings.py` if needed.
 
 4. **Initialize the Database**
@@ -52,7 +53,8 @@ google-gemini-sql-agent
 5. **Run the Application**
    Start the application by running:
    ```bash
-   python main.py
+   python src/DbAgent.py
+   streamlit run src/Dbagent_streamlit.py
    ```
 
 ## Usage
@@ -74,6 +76,9 @@ Refer to the `database/schema.sql` file for the detailed structure of each table
 Output:
 DbAgent.py
 ![alt text](image.png)
+
+Dbagent_streamlit.py
+![alt text](image-2.png)
 
 SearchAgent.py
 ![alt text](image-1.png)
