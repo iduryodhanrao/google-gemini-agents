@@ -1,5 +1,5 @@
 -- Insert test data into the product table
-/*INSERT INTO product (name, description, price, stock) VALUES
+INSERT INTO product (name, description, price, stock) VALUES
 ('Laptop', 'High-performance laptop', 1200.99, 10),
 ('Smartphone', 'Latest model smartphone', 799.49, 25),
 ('Headphones', 'Noise-cancelling headphones', 199.99, 50),
@@ -13,7 +13,7 @@ INSERT INTO customer (first_name, last_name, email, phone) VALUES
 ('Alice', 'Johnson', 'alice.johnson@example.com', '555-123-4567'),
 ('Bob', 'Brown', 'bob.brown@example.com', '444-555-6666'),
 ('Charlie', 'Davis', 'charlie.davis@example.com', '333-222-1111');
-*/
+
 -- Insert test data into the orders table
 INSERT INTO orders (customer_id, product_id, quantity, order_date) VALUES
 (1, 1, 1, '2025-05-01'),

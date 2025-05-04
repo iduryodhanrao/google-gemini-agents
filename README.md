@@ -27,7 +27,7 @@ google-gemini-sql-agent
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/yourusername/google-gemini-sql-agent.git
-   cd google-gemini-sql-agent
+   cd google-gemini-agent
    ```
 
 2. **Install Dependencies**
@@ -45,7 +45,7 @@ google-gemini-sql-agent
    - Update any additional settings in `config/settings.py` if needed.
 
 4. **Initialize the Database**
-   Run the SQL scripts to create the database schema and seed it with initial data:
+   sample db exists already. however to add or modify schema.sql and seed_data.sql can be modified and Run the SQL scripts to create/modify the database schema and seed it with initial data:
    ```bash
    python execute_schema.py
    ```
