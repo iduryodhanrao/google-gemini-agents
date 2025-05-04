@@ -1,10 +1,12 @@
+import ast
+import io  # For in-memory image handling
 import sqlite3
 from dotenv import load_dotenv
 import os
 from google import genai
 from google.genai import types
+from matplotlib import pyplot as plt
 import streamlit as st
-
 
 
 # Load environment variables from .env file
@@ -68,16 +70,18 @@ def main():
 
     Use list_tables to see what tables are present, describe_table to understand the
     schema, and execute_query to issue an SQL SELECT query
-
+    
     Keep trying until you get the correct SQL statement. If the SQL returns more than 1 row then    
-    display the output in tabular or table format properly aligned.
+    display the output in tabular or table format with columns properly aligned.
     If the SQL returns only 1 row then display the output in a single line.
-    """
+    Try to create graphs using the data if possible.
 
+    If the user asks for a chart, generate Python code or data in the format:
+    data = [("Category1", Value1), ("Category2", Value2), ...].
+    Ensure the data is properly formatted and complete."""
 
     # Set the GOOGLE_API_KEY from the environment
     client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
-
 
     # Start a chat with automatic function calling enabled.
     chat = client.chats.create(
@@ -87,28 +91,76 @@ def main():
             tools=db_tools,
         ),
     )
+
     # Set up the Streamlit app
     st.set_page_config(layout="wide", page_title="SQL Chatbot", page_icon=":robot_face:")
-
+    data=None
     # Initialize session state to store chat history
     if "history" not in st.session_state:
         st.session_state.history = []
 
     # Set up the layout with two columns
-    left_col, spacer, right_col = st.columns([5,0.2,5])
+    left_col, spacer, right_col = st.columns([5, 0.2, 5])
     with left_col:
         st.header("Chat with SQL Bot")
-        #st.write("Hello, how can i help you?")
-        user_input = st.text_input("You: ",key="user_input")
+        user_input = st.text_input("You: ", key="user_input")
         if st.button("Send"):
-        # Get user input and respond using the chat model
+            # Get user input and respond using the chat model
             if user_input.strip():
                 response = chat.send_message(user_input)
                 model_response = response.text
+                st.write("Debug: Model response:", model_response)
                 st.write(f"Bot: {model_response}")
-                bot_response =f'Bot: {model_response}'
+                bot_response = f'Bot: {model_response}'
                 st.session_state.history.append(bot_response)
-    
+
+                # Check if the model response contains chart data
+                if "data = " in model_response:
+                    # Extract the Python code block containing the data
+                    start = model_response.find("data = ")
+                    end = model_response.find("\n", start)
+                    data_code = model_response[start:end].strip()
+
+                    # Debugging: Print the extracted data_code
+                    #st.write("Debug: Extracted data_code")
+                    #st.write(data_code)
+
+                    # Initialize `data` to avoid UnboundLocalError
+                    data = None
+
+                    # Validate the extracted data_code
+                    if not data_code.startswith("data = [") or not data_code.endswith("]"):
+                        st.write("Error: Extracted data_code is incomplete or malformed.")
+                    else:
+                        # Execute the data code to define the `data` variable
+                        try:
+                            exec(data_code, globals())
+                            st.write("Chart data extracted successfully!")
+                            
+                        except Exception as e:
+                            st.write(f"Error extracting chart data: {e}")
+                data = ast.literal_eval(data_code.split('=', 1)[1].strip())
+                
+                if data:
+                    categories, values = zip(*data)
+                    st.write("categories", categories)
+                    st.write("values", values)
+                    # Generate a bar chart
+                    plt.bar(categories, values)
+                    plt.xlabel("Categories")
+                    plt.ylabel("Values")
+                    plt.title("Generated Chart")
+                    plt.show()
+
+                    # Save the chart to a buffer and display it
+                    buffer = io.BytesIO()
+                    plt.savefig(buffer, format="png")
+                    buffer.seek(0)
+                    plt.close()
+                    st.image(buffer, caption="Generated Chart", use_column_width=True)
+                else:
+                    st.write("No data available to generate a chart.")
+
     # Add a spacer between the two columns
     with spacer:
         st.empty()
@@ -120,13 +172,12 @@ def main():
         if st.button("Clear History"):
             st.session_state.history.clear()
             user_input = ""
-            st.session_state[user_input] = ""        
-            
+            st.session_state[user_input] = ""
+
         # Display history in a scrollable text area
         history_text = "\n".join(st.session_state.history)
         st.text_area("Conversation History:", value=history_text, height=400, key="history_area", disabled=True)
 
-    
 
 if __name__ == "__main__":
     main()
