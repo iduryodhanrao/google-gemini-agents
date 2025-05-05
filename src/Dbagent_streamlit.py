@@ -70,14 +70,12 @@ def main():
     schema, and execute_query to issue an SQL SELECT query
 
     Keep trying until you get the correct SQL statement. If the SQL returns more than 1 row then    
-    display the output in tabular or table format properly aligned.
+    display the output in tabular or table format properly column aligned.
     If the SQL returns only 1 row then display the output in a single line.
     """
-
-
+    
     # Set the GOOGLE_API_KEY from the environment
-    client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
-
+    client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
 
     # Start a chat with automatic function calling enabled.
     chat = client.chats.create(
