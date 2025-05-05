@@ -1,0 +1,13 @@
+campaign_nm,campaign_cosa,campaign_product,campaign_funding_source,spend_amt,start_date,end_date
+P&C_Auto Insurance_Campaign_1,P&C,Auto Insurance,P&C Auto Insurance,$8224,2025-02-10,2025-07-06
+P&C_Auto Insurance_Campaign_2,P&C,Auto Insurance,P&C Auto Insurance,$2623,2025-03-18,2025-07-08
+P&C_Homeowners_Campaign_1,P&C,Homeowners,P&C Homeowners,$5057,2025-03-17,2025-07-15
+P&C_Homeowners_Campaign_2,P&C,Homeowners,P&C Homeowners,$6131,2025-03-22,2025-06-09
+P&C_Renters_Campaign_1,P&C,Renters,P&C Renters,$8540,2025-03-21,2025-06-17
+P&C_Renters_Campaign_2,P&C,Renters,P&C Renters,$1354,2025-03-26,2025-06-11
+Bank_Credit Card_Campaign_1,Bank,Credit Card,Bank Credit Card,$6272,2025-03-18,2025-06-05
+Bank_Credit Card_Campaign_2,Bank,Credit Card,Bank Credit Card,$4542,2025-03-17,2025-07-13
+Bank_Deposits_Campaign_1,Bank,Deposits,Bank Deposits,$1024,2025-03-29,2025-06-28
+Bank_Deposits_Campaign_2,Bank,Deposits,Bank Deposits,$6547,2025-03-16,2025-06-08
+Bank_Consumer Loans_Campaign_1,Bank,Consumer Loans,Bank Consumer Loans,$5526,2025-02-14,2025-07-13
+Bank_Consumer Loans_Campaign_2,Bank,Consumer Loans,Bank Consumer Loans,$6295,2025-02-14,2025-07-26
