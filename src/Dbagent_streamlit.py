@@ -100,7 +100,7 @@ def main():
 
 
     final: 
-    Display the output in table format properly column aligned.
+    Display the output in table format.
     If the SQL returns greater than 100 rows then display only 100 rows and put a message at the end of the table saying "Only 100 rows displayed".
     
     """

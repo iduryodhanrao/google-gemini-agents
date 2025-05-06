@@ -10,7 +10,7 @@ import streamlit as st
 
 
 # Load environment variables from .env file
-load_dotenv()
+#load_dotenv()
 
 #connect to sqllite
 db_file = "database/testdb.db"
@@ -70,19 +70,38 @@ def main():
 
     Use list_tables to see what tables are present, describe_table to understand the
     schema, and execute_query to issue an SQL SELECT query
-    
+    Use below business rules to answer the user queries:
+    CPM = CPI = Cost per Impression = Spend / Number of impressions
+    CPQS = Cost per Quote Start = Spend / number of Quote Starts
+    CPQC = Cost per Quote Complete = Spend / number of Quote Completes
+    CPAS = Cost per Application Start = Spend / number of application starts
+    CPAC = Cost per Application Complete = Spend / number of application completes
+    CPP = Cost per Product Acquisition = Spend / number of Products acquired
+    member number = member_id
+    product = campaign_product, converted_product
+    channel = conversion_channel
+    conversion type = quote_start, quote_complete, app_start, app_complete, prod_acq
+    cosa = lob, line of business, campaign_cosa, converted_cosa
+    funding source = campaign_funding_source, funding_source
+    demography = geography, city, state, region, country, age group
+    quote = quote, quote start, quote complete, quote conversion
+    applications = app, application, app start, app complete, app conversion
+
+    When checking for string values convert them to lower case in both the SQL and the user input.
+    eg. get me the campaign name for Auto insurance from paid channel tables
+
     Keep trying until you get the correct SQL statement. If the SQL returns more than 1 row then    
     display the output in tabular or table format with columns properly aligned.
     If the SQL returns only 1 row then display the output in a single line.
     Try to create graphs using the data if possible.
 
-    If the user asks for a chart, generate Python code or data in the format:
+    If the user asks for a chart, generate data in the format:
     data = [("Category1", Value1), ("Category2", Value2), ...].
     Ensure the data is properly formatted and complete."""
 
     # Set the GOOGLE_API_KEY from the environment
-    client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
-
+    #client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+    client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
     # Start a chat with automatic function calling enabled.
     chat = client.chats.create(
         model="gemini-2.0-flash",
@@ -109,11 +128,10 @@ def main():
             if user_input.strip():
                 response = chat.send_message(user_input)
                 model_response = response.text
-                st.write("Debug: Model response:", model_response)
                 st.write(f"Bot: {model_response}")
                 bot_response = f'Bot: {model_response}'
                 st.session_state.history.append(bot_response)
-
+                data = None
                 # Check if the model response contains chart data
                 if "data = " in model_response:
                     # Extract the Python code block containing the data
@@ -139,7 +157,7 @@ def main():
                             
                         except Exception as e:
                             st.write(f"Error extracting chart data: {e}")
-                data = ast.literal_eval(data_code.split('=', 1)[1].strip())
+                    data = ast.literal_eval(data_code.split('=', 1)[1].strip())
                 
                 if data:
                     categories, values = zip(*data)
