@@ -99,7 +99,7 @@ def main():
     if the sql running for more than 15 seconds then stop the execution and return a message saying "SQL query is taking too long to execute. Please try again with a different query".
 
 
-    very important: 
+    final: 
     Display the output in table format properly column aligned.
     If the SQL returns greater than 100 rows then display only 100 rows and put a message at the end of the table saying "Only 100 rows displayed".
     

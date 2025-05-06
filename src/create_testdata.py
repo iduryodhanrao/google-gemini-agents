@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS campaign_dim (
     campaign_cosa TEXT,
     campaign_product TEXT,
     campaign_funding_source TEXT,
-    spent_amt TEXT,
+    spent_amt integer,
     campaign_start_date TEXT,
     campaign_end_date TEXT
 );

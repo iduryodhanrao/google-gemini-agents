@@ -162,3 +162,14 @@ drop table marketing_event_dtl
 drop table orders;
 drop table product;
 drop table customer;
+
+SELECT cf.campaign_nm, CAST(SUM(cd.spent_amt) AS REAL) / SUM(cf.quote_start) AS CPQS FROM campaign_fact cf JOIN campaign_dim cd ON cf.campaign_nm = cd.campaign_nm GROUP BY cf.campaign_nm;
+
+
+drop table campaign_dim;
+alter table campaign_dim_temp rename to campaign_dim
+;
+
+update campaign_dim set spent_amt = spent_amt + 540000 ;
+
+SELECT T1.campaign_nm, SUM(T1.spent_amt) / SUM(T2.quote_start) AS CPQS FROM campaign_dim AS T1 JOIN campaign_fact AS T2 ON T1.campaign_nm = T2.campaign_nm GROUP BY T1.campaign_nm
