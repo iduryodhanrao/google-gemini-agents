@@ -3,3 +3,4 @@ google-genai==1.10.0
 google-api-core==2.24.2
 chromadb==1.0.4
 streamlit==1.45.0
+matplotlib==3.10.1
