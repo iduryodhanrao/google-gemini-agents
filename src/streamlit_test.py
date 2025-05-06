@@ -160,22 +160,25 @@ def main():
                     data = ast.literal_eval(data_code.split('=', 1)[1].strip())
                 
                 if data:
-                    categories, values = zip(*data)
-                    st.write("categories", categories)
-                    st.write("values", values)
-                    # Generate a bar chart
-                    plt.bar(categories, values)
-                    plt.xlabel("Categories")
-                    plt.ylabel("Values")
-                    plt.title("Generated Chart")
-                    plt.show()
+                    try:
+                        categories, values = zip(*data)
+                        st.write("categories", categories)
+                        st.write("values", values)
+                        # Generate a bar chart
+                        plt.bar(categories, values)
+                        plt.xlabel("Categories")
+                        plt.ylabel("Values")
+                        plt.title("Generated Chart")
+                        plt.show()
 
-                    # Save the chart to a buffer and display it
-                    buffer = io.BytesIO()
-                    plt.savefig(buffer, format="png")
-                    buffer.seek(0)
-                    plt.close()
-                    st.image(buffer, caption="Generated Chart", use_column_width=True)
+                        # Save the chart to a buffer and display it
+                        buffer = io.BytesIO()
+                        plt.savefig(buffer, format="png")
+                        buffer.seek(0)
+                        plt.close()
+                        st.image(buffer, caption="Generated Chart", use_column_width=True)
+                    except Exception as e:
+                            st.write(f"Error creating Barchart: {e}")        
                 else:
                     st.write("No data available to generate a chart.")
 
