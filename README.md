@@ -33,6 +33,8 @@ google-gemini-sql-agent
 2. **Install Dependencies**
    Ensure you have Python installed, then install the required packages:
    ```bash
+   python -m venv venv
+   source venv/Scripts/activate
    pip install -r requirements.txt
    ```
 
